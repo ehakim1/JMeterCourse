@@ -1,4 +1,4 @@
-package com.att.jmeterCourse.exercise1;
+package com.att.jmeterCourse;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -17,15 +17,13 @@ public class SampleSleep extends AbstractJavaSamplerClient {
 	private String userNumber;
 	private int timeToWait;
 	private String iterationNumber;
+	private long sleepTime;
 	
 	@Override
 	public void setupTest(JavaSamplerContext ctx){
 		
 		userPrefix = "User";
-		userNumber = ctx.getParameter("myThreadId");
-		
-		//if running from eclipse
-		userNumber = "1";
+		userNumber = ctx.getParameter("myThreadId");  //get the Thread ID from the Java Request context
 		userName =  userPrefix + userNumber;
 		timeToWait = 5;
 	}
@@ -35,35 +33,35 @@ public class SampleSleep extends AbstractJavaSamplerClient {
 	public SampleResult runTest(JavaSamplerContext ctx) {
 		// TODO Auto-generated method stub
 		
-		iterationNumber = ctx.getParameter("myIteration");
-
-		//if running from eclipse
-		iterationNumber = "1";
+		iterationNumber = ctx.getParameter("myIteration"); //get the Iteration number from the Java Request context
 		
 		SampleResult sample = new SampleResult();
 		
 		System.out.println("Username - " + userName + ", Iteration - " + iterationNumber);
 		
 		Random r = new Random(System.currentTimeMillis());
+		
 		try {		
 			sample.setSampleLabel("SampleSleep");
 			sample.sampleStart();
-			TimeUnit.SECONDS.sleep(r.nextLong() + timeToWait);
+			sleepTime = r.nextInt(timeToWait);
+			System.out.println("Sleeping - " + sleepTime);
+			TimeUnit.SECONDS.sleep(sleepTime);
 			sample.sampleEnd();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return null;
+		return sample;
 	}
 
 	
 	@Override
     public Arguments getDefaultParameters() {
         Arguments defaultParameters = new Arguments();
-        defaultParameters.addArgument("myThreadId", "${__threadNum}");
-        defaultParameters.addArgument("myIteration", "${__counter(TRUE,)}");
+        defaultParameters.addArgument("myThreadId", "${__threadNum}");  //Set thread number param in the Java request context
+        defaultParameters.addArgument("myIteration", "${__counter(TRUE,)}"); //Set thread number param in the Java request context
         return defaultParameters;
     }
     
