@@ -48,6 +48,10 @@ public class SampleSleep extends AbstractJavaSamplerClient {
 			System.out.println("Sleeping - " + sleepTime);
 			TimeUnit.SECONDS.sleep(sleepTime);
 			sample.sampleEnd();
+			if (sleepTime <= timeToWait/2)
+				sample.setSuccessful(true);
+			else
+				sample.setSuccessful(false);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
