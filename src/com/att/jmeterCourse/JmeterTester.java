@@ -15,6 +15,7 @@ public class JmeterTester {
 
 		defaultParameters.removeArgument("myThreadId");
 		defaultParameters.addArgument("myThreadId", "1");
+
 		
 		JavaSamplerContext context = new JavaSamplerContext(defaultParameters);
         
@@ -29,6 +30,11 @@ public class JmeterTester {
 			sample.runTest(context);
 		}
 		
+		defaultParameters.removeArgument("myThreadId");
+		defaultParameters.addArgument("myThreadId", "1");		
+		context = new JavaSamplerContext(defaultParameters);
+		
+		sample.teardownTest(context);
 		
 	}
 }

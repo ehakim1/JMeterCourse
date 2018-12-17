@@ -22,10 +22,10 @@ public class SampleSleep extends AbstractJavaSamplerClient {
 	@Override
 	public void setupTest(JavaSamplerContext ctx){
 		
-		userPrefix = "User";
+		userPrefix = ctx.getParameter("UserPrefix");
 		userNumber = ctx.getParameter("myThreadId");  //get the Thread ID from the Java Request context
 		userName =  userPrefix + userNumber;
-		timeToWait = 5;
+		timeToWait = Integer.parseInt(ctx.getParameter("TimeToWait"));
 	}
 	
 	
@@ -58,10 +58,17 @@ public class SampleSleep extends AbstractJavaSamplerClient {
 
 	
 	@Override
+	public void teardownTest(JavaSamplerContext ctx){
+		System.out.println("Thread ID - " + ctx.getIntParameter("myThreadId") + " is done.");
+	}
+
+	@Override
     public Arguments getDefaultParameters() {
         Arguments defaultParameters = new Arguments();
         defaultParameters.addArgument("myThreadId", "${__threadNum}");  //Set thread number param in the Java request context
         defaultParameters.addArgument("myIteration", "${__counter(TRUE,)}"); //Set thread number param in the Java request context
+		defaultParameters.addArgument("UserPrefix", "User"); //Set user prefix param in the Java request context
+		defaultParameters.addArgument("TimeToWait", "5"); //Set time to wait param in the Java request context
         return defaultParameters;
     }
     
