@@ -25,10 +25,12 @@ public class JmeterTester {
 			defaultParameters = sample.getDefaultParameters();
 			defaultParameters.removeArgument("myIteration");
 			defaultParameters.addArgument("myIteration", "" + i);
-			context = new JavaSamplerContext(defaultParameters);
+			//context = new JavaSamplerContext(defaultParameters);
 			sample.runTest(context);
 		}
-		
-		
+		defaultParameters.removeArgument("myThreadId");
+		defaultParameters.addArgument("myThreadId", "1");		
+		//context = new JavaSamplerContext(defaultParameters);
+		sample.teardownTest(context);
 	}
 }

@@ -60,6 +60,11 @@ public class SampleSleep extends AbstractJavaSamplerClient {
 		return sample;
 	}
 
+	@Override
+	public void teardownTest(JavaSamplerContext ctx){
+		System.out.println("Thread ID - " + ctx.getParameter("myThreadId") + " is done"); 
+	}
+
 	
 	@Override
     public Arguments getDefaultParameters() {
